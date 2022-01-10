@@ -11,18 +11,16 @@ import {
   useMediaQuery,
   useTheme,
 } from "@material-ui/core";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useRouter } from "next/router";
 import { useQuery } from "react-query";
+import { Post } from "../../interfaces/TPost";
 
-type Post = {
-  userId: number;
-  id: number;
-  title: string;
-  body: string;
-};
-
-const fetchPeopleListFromAPI = async () => {
+/**
+ * Getting posts data from json
+ * @returns posts
+ */
+const fetchPosts = async () => {
   const res = await fetch("https://jsonplaceholder.typicode.com/posts");
   const posts: Post[] = await res.json();
   return {
@@ -33,7 +31,7 @@ const fetchPeopleListFromAPI = async () => {
 };
 
 export default function Profile({ posts }: { posts: Post[] | undefined }) {
-  const { data } = useQuery("posts", fetchPeopleListFromAPI);
+  const { data } = useQuery("posts", fetchPosts);
   posts = data?.props.posts;
 
   const router = useRouter();

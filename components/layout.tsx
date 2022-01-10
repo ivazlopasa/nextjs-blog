@@ -1,5 +1,3 @@
-import Head from "next/head";
-import Image from "next/image";
 import Typography from "@material-ui/core/Typography";
 import Breadcrumbs from "@material-ui/core/Breadcrumbs";
 import React from "react";
@@ -8,9 +6,8 @@ import { Link as MUILink } from "@material-ui/core";
 import useStyles from "../src/styles";
 import useStyles2 from "../src/utilStyles";
 
-function handleClick(event: any) {
-  //event.preventDefault();
-}
+function handleClick(event: any) {}
+
 export const siteTitle = "Iva's Blog";
 
 export default function Layout({

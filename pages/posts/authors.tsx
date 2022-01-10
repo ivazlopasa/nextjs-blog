@@ -13,12 +13,19 @@ import Layout from "../../components/layout";
 import { useQuery } from "react-query";
 import { Author } from "../../interfaces/TAuthors";
 
+/**
+ * Getting authors initials for avatars
+ */
 function stringAvatar(name: any) {
   return {
     children: `${name.split(" ")[0][0]}${name.split(" ")[1][0]}`,
   };
 }
 
+/**
+ * Getting users(authors) data from json
+ * @returns authors
+ */
 const fetchAuthors = async () => {
   const res = await fetch("https://jsonplaceholder.typicode.com/users");
   const authors: Author[] = await res.json();

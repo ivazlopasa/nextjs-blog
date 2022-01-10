@@ -12,36 +12,40 @@ import { CardActionArea, CardActions } from "@material-ui/core";
 import useStyles from "../src/styles";
 import Image from "next/image";
 import { Post } from "../interfaces/TPost";
+import { useRouter } from "next/router";
+import { useQuery } from "react-query";
 
-export async function getStaticProps() {
-  try {
-    const res = await fetch("https://jsonplaceholder.typicode.com/posts");
-    const posts: Post[] = await res.json();
-    if (!posts) {
-      return { notFound: true };
-    }
-    return {
-      props: {
-        posts,
-      },
-    };
-  } catch {
-    return {
-      redirect: {
-        destination: "/",
-      },
-    };
-  }
-}
+/**
+ * Getting posts data from json
+ * @returns posts
+ */
+const fetchPosts = async () => {
+  const res = await fetch("https://jsonplaceholder.typicode.com/posts");
+  const posts: Post[] = await res.json();
+  return {
+    props: {
+      posts,
+    },
+  };
+};
 
-function handleClick(event: { preventDefault: () => void }) {
-  event.preventDefault();
-}
+export default function Home({ posts }: { posts: Post[] | undefined }) {
+  const { data } = useQuery("posts", fetchPosts);
+  posts = data?.props.posts;
 
-export default function Home({ posts }: { posts: Post[] }) {
   const classes = useStyles();
   const classesUtil = useStyles2();
   const name = "Iva";
+
+  const router = useRouter();
+  const ROUTE_POST_ID = "posts/[id]";
+
+  //navigate to posts/id pages
+  const navigate = (id: any) =>
+    router.push({
+      pathname: ROUTE_POST_ID,
+      query: { id },
+    });
 
   return (
     <Layout home>
@@ -76,7 +80,7 @@ export default function Home({ posts }: { posts: Post[] }) {
       <Container className={classes.cardGrid}>
         <h2 className={classesUtil.headingLg}>Blog</h2>
         <Grid container spacing={4}>
-          {posts.map((post) => (
+          {posts?.map((post) => (
             <Grid item xs={12} sm={6} md={4} key={post.id}>
               <Card className={classes.card}>
                 <CardActionArea>
@@ -95,8 +99,12 @@ export default function Home({ posts }: { posts: Post[] }) {
                   </CardContent>
                 </CardActionArea>
                 <CardActions>
-                  <Button size="small" color="primary">
-                    <Link href={"posts/" + `${post.id}`}>View</Link>
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    onClick={() => navigate(post.id)}
+                  >
+                    View
                   </Button>
                 </CardActions>
               </Card>
