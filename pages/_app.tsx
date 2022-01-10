@@ -5,6 +5,7 @@ import { ThemeProvider } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import theme from "../src/theme";
 import { AppProps } from "next/app";
+import { QueryClient, QueryClientProvider } from "react-query";
 
 export default function MyApp({ Component, pageProps }: AppProps): JSX.Element {
   React.useEffect(() => {
@@ -13,6 +14,7 @@ export default function MyApp({ Component, pageProps }: AppProps): JSX.Element {
       jssStyles.parentElement.removeChild(jssStyles);
     }
   }, []);
+  const [queryClient] = React.useState(() => new QueryClient());
 
   return (
     <React.Fragment>
@@ -24,8 +26,10 @@ export default function MyApp({ Component, pageProps }: AppProps): JSX.Element {
         />
       </Head>
       <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <Component {...pageProps} />
+        <QueryClientProvider client={queryClient}>
+          <CssBaseline />
+          <Component {...pageProps} />
+        </QueryClientProvider>
       </ThemeProvider>
     </React.Fragment>
   );

@@ -10,23 +10,39 @@ import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import { CardActionArea, CardActions } from "@material-ui/core";
 import useStyles from "../src/styles";
-
-type Post = {
-  userId: number;
-  id: number;
-  title: string;
-  body: string;
-};
+import Image from "next/image";
+import { Post } from "../interfaces/TPost";
 
 export async function getStaticProps() {
-  const res = await fetch("https://jsonplaceholder.typicode.com/posts");
-  const posts: Post[] = await res.json();
-  return {
-    props: {
-      posts,
-    },
-  };
+  try {
+    const res = await fetch("https://jsonplaceholder.typicode.com/posts");
+    const posts: Post[] = await res.json();
+    if (!posts) {
+      return { notFound: true };
+    }
+    return {
+      props: {
+        posts,
+      },
+    };
+  } catch {
+    //return { notFound: true };
+    return {
+      redirect: {
+        destination: "/",
+      },
+    };
+  }
 }
+
+/* export default function PaginationPage() {
+  const { data } = useQuery(
+    "characters",
+    async () =>
+      await fetch(`https://rickandmortyapi.com/api/character/`).then((result) =>
+        result.json()
+      )
+  ); */
 
 function handleClick(event: { preventDefault: () => void }) {
   event.preventDefault();
@@ -35,12 +51,24 @@ function handleClick(event: { preventDefault: () => void }) {
 export default function Home({ posts }: { posts: Post[] }) {
   const classes = useStyles();
   const classesUtil = useStyles2();
+  const name = "Iva";
 
   return (
     <Layout home>
       <Head>
         <title>{siteTitle}</title>
       </Head>
+      <header className={classes.header}>
+        <Image
+          priority
+          src="/images/profile.jpg"
+          className={classesUtil.borderCircle}
+          height={140}
+          width={140}
+          alt={name}
+        />
+        <h1 className={classesUtil.heading2Xl}>{name}</h1>
+      </header>
       <Container className={classes.about}>
         <Typography variant="body1" gutterBottom className={classes.aboutText}>
           It is a long established fact that a reader will be distracted by the
@@ -69,7 +97,7 @@ export default function Home({ posts }: { posts: Post[] }) {
                   />
                   <CardContent>
                     <Typography gutterBottom variant="h5" component="div">
-                      {post.title}
+                      {post.id}. {post.title}
                     </Typography>
                     <Typography variant="body2" color="textSecondary">
                       {post.body}
@@ -78,7 +106,7 @@ export default function Home({ posts }: { posts: Post[] }) {
                 </CardActionArea>
                 <CardActions>
                   <Button size="small" color="primary">
-                    View
+                    <Link href={"posts/" + `${post.id}`}>View</Link>
                   </Button>
                 </CardActions>
               </Card>

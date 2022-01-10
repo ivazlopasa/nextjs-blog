@@ -1,6 +1,7 @@
 import useStyles from "../../src/utilStyles";
 import Image from "next/image";
 import {
+  Box,
   Button,
   Container,
   Dialog,
@@ -14,6 +15,7 @@ import {
   useTheme,
 } from "@material-ui/core";
 import React from "react";
+import Layout from "../../components/layout";
 
 export default function Profile() {
   const utilClasses = useStyles();
@@ -30,27 +32,27 @@ export default function Profile() {
   };
 
   return (
-    <>
-      <Container maxWidth="sm" className={utilClasses.container}>
+    <Layout home>
+      <Container maxWidth="lg" className={utilClasses.container}>
         <a>
           <Image
             priority
             src="/images/profile.jpg"
             className={utilClasses.borderCircle}
-            height={140}
-            width={140}
+            height={150}
+            width={150}
           />
         </a>
-        <Typography variant="body1" gutterBottom color="primary">
+        <Typography variant="h6" gutterBottom color="primary">
           Name:
         </Typography>
-        <Typography variant="body2" gutterBottom>
+        <Typography variant="body1" gutterBottom>
           Iva Zlopasa
         </Typography>
-        <Typography variant="body1" gutterBottom color="primary">
+        <Typography variant="h6" gutterBottom color="primary">
           About me:
         </Typography>
-        <Typography variant="body2" gutterBottom>
+        <Typography variant="body1" gutterBottom>
           There are many variations of passages of Lorem Ipsum available, but
           the majority have suffered alteration in some form, by injected
           humour, or randomised words which don't look even slightly believable.
@@ -63,14 +65,11 @@ export default function Profile() {
           looks reasonable. The generated Lorem Ipsum is therefore always free
           from repetition, injected humour, or non-characteristic words etc.
         </Typography>
-        <Button
-          variant="outlined"
-          onClick={handleClickOpen}
-          color="primary"
-          className={utilClasses.button}
-        >
-          Show me more
-        </Button>
+        <Box className={utilClasses.buttonBox}>
+          <Button variant="outlined" onClick={handleClickOpen} color="primary">
+            Show me more
+          </Button>
+        </Box>
         <Dialog
           fullScreen={fullScreen}
           open={open}
@@ -100,15 +99,14 @@ export default function Profile() {
             </Button>
           </DialogActions>
         </Dialog>
-        <Link
-          href="/"
-          color="inherit"
-          variant="body1"
-          className={utilClasses.link}
-        >
-          Go back
-        </Link>
+        <Box className={utilClasses.buttonBox}>
+          <Link href="/">
+            <Button variant="outlined" color="primary">
+              Go back
+            </Button>
+          </Link>
+        </Box>
       </Container>
-    </>
+    </Layout>
   );
 }

@@ -4,6 +4,7 @@ import { red } from '@material-ui/core/colors';
 // Create a theme instance.
 const theme = createTheme({
 palette: {
+    spacing: 2, 
     primary: {
         main: "#E59400",
     },
