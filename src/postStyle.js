@@ -21,10 +21,7 @@ const useStyles3 = makeStyles(() => ({
         display: 'block',
         maxWidth: '100%',
         maxHeight: '100%',
-    },
-/*     root: {
-        flexGrow: 1,
-    }, */
+    }
 })
 );
 

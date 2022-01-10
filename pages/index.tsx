@@ -26,7 +26,6 @@ export async function getStaticProps() {
       },
     };
   } catch {
-    //return { notFound: true };
     return {
       redirect: {
         destination: "/",
@@ -34,15 +33,6 @@ export async function getStaticProps() {
     };
   }
 }
-
-/* export default function PaginationPage() {
-  const { data } = useQuery(
-    "characters",
-    async () =>
-      await fetch(`https://rickandmortyapi.com/api/character/`).then((result) =>
-        result.json()
-      )
-  ); */
 
 function handleClick(event: { preventDefault: () => void }) {
   event.preventDefault();

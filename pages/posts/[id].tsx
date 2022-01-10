@@ -34,12 +34,10 @@ const fetchPeopleListFromAPI = async () => {
 
 export default function Profile({ posts }: { posts: Post[] | undefined }) {
   const { data } = useQuery("posts", fetchPeopleListFromAPI);
-  console.log(data?.props.posts);
   posts = data?.props.posts;
 
   const router = useRouter();
   let id = router.query.id;
-  console.log(router.query.id);
 
   const utilClasses = useStyles();
   const postClasses = useStyles3();
@@ -50,7 +48,6 @@ export default function Profile({ posts }: { posts: Post[] | undefined }) {
   let activePost: Post | undefined;
 
   const currentPost = posts?.find((p) => p.id.toString() === id);
-  console.log(currentPost);
 
   return (
     <>
