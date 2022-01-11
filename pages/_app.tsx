@@ -6,6 +6,7 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import theme from "../src/theme";
 import { AppProps } from "next/app";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { PostsWrapper } from "../context/PostsContext";
 
 export default function MyApp({ Component, pageProps }: AppProps): JSX.Element {
   React.useEffect(() => {
@@ -27,8 +28,10 @@ export default function MyApp({ Component, pageProps }: AppProps): JSX.Element {
       </Head>
       <ThemeProvider theme={theme}>
         <QueryClientProvider client={queryClient}>
-          <CssBaseline />
-          <Component {...pageProps} />
+          <PostsWrapper>
+            <CssBaseline />
+            <Component {...pageProps} />
+          </PostsWrapper>
         </QueryClientProvider>
       </ThemeProvider>
     </React.Fragment>

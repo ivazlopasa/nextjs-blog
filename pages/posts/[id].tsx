@@ -8,42 +8,20 @@ import {
   Grid,
   Link,
   Typography,
-  useMediaQuery,
-  useTheme,
 } from "@material-ui/core";
 import React from "react";
 import { useRouter } from "next/router";
-import { useQuery } from "react-query";
-import { Post } from "../../interfaces/TPost";
+import { TPost } from "../../interfaces/TPost";
+import { usePostsContext } from "../../context/PostsContext";
 
-/**
- * Getting posts data from json
- * @returns posts
- */
-const fetchPosts = async () => {
-  const res = await fetch("https://jsonplaceholder.typicode.com/posts");
-  const posts: Post[] = await res.json();
-  return {
-    props: {
-      posts,
-    },
-  };
-};
-
-export default function Profile({ posts }: { posts: Post[] | undefined }) {
-  const { data } = useQuery("posts", fetchPosts);
-  posts = data?.props.posts;
+export default function Profile({ posts }: { posts: TPost[] | undefined }) {
+  posts = usePostsContext().posts;
 
   const router = useRouter();
   let id = router.query.id;
 
   const utilClasses = useStyles();
   const postClasses = useStyles3();
-
-  const [open, setOpen] = React.useState(false);
-  const theme = useTheme();
-  const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
-  let activePost: Post | undefined;
 
   const currentPost = posts?.find((p) => p.id.toString() === id);
 

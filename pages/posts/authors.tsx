@@ -10,8 +10,8 @@ import {
 } from "@material-ui/core";
 import React from "react";
 import Layout from "../../components/layout";
-import { useQuery } from "react-query";
-import { Author } from "../../interfaces/TAuthors";
+import { TAuthor } from "../../interfaces/TAuthors";
+import { usePostsContext } from "../../context/PostsContext";
 
 /**
  * Getting authors initials for avatars
@@ -22,29 +22,13 @@ function stringAvatar(name: any) {
   };
 }
 
-/**
- * Getting users(authors) data from json
- * @returns authors
- */
-const fetchAuthors = async () => {
-  const res = await fetch("https://jsonplaceholder.typicode.com/users");
-  const authors: Author[] = await res.json();
-  return {
-    props: {
-      authors,
-    },
-  };
-};
-
 export default function Authors({
   authors,
 }: {
-  authors: Author[] | undefined;
+  authors: TAuthor[] | undefined;
 }) {
-  const { data } = useQuery("authors", fetchAuthors);
-  authors = data?.props.authors;
+  authors = usePostsContext().authors;
   const authorsClasses = useStyles4();
-  const theme = useTheme();
 
   return (
     <Layout home>

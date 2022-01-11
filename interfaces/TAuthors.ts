@@ -1,4 +1,4 @@
-export type Author = {
+export type TAuthor = {
     id: number;
     name: string;
     username: string;

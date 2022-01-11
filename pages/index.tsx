@@ -11,36 +11,21 @@ import CardMedia from "@material-ui/core/CardMedia";
 import { CardActionArea, CardActions } from "@material-ui/core";
 import useStyles from "../src/styles";
 import Image from "next/image";
-import { Post } from "../interfaces/TPost";
+import { TPost } from "../interfaces/TPost";
 import { useRouter } from "next/router";
-import { useQuery } from "react-query";
+import { usePostsContext } from "../context/PostsContext";
 
-/**
- * Getting posts data from json
- * @returns posts
- */
-const fetchPosts = async () => {
-  const res = await fetch("https://jsonplaceholder.typicode.com/posts");
-  const posts: Post[] = await res.json();
-  return {
-    props: {
-      posts,
-    },
-  };
-};
-
-export default function Home({ posts }: { posts: Post[] | undefined }) {
-  const { data } = useQuery("posts", fetchPosts);
-  posts = data?.props.posts;
+export default function Home({ posts }: { posts: TPost[] | undefined }) {
+  posts = usePostsContext().posts;
 
   const classes = useStyles();
   const classesUtil = useStyles2();
+
   const name = "Iva";
 
   const router = useRouter();
   const ROUTE_POST_ID = "posts/[id]";
 
-  //navigate to posts/id pages
   const navigate = (id: any) =>
     router.push({
       pathname: ROUTE_POST_ID,
