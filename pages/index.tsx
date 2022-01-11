@@ -10,37 +10,44 @@ import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import { CardActionArea, CardActions } from "@material-ui/core";
 import useStyles from "../src/styles";
+import Image from "next/image";
+import { TPost } from "../interfaces/TPost";
+import { useRouter } from "next/router";
+import { usePostsContext } from "../context/PostsContext";
 
-type Post = {
-  userId: number;
-  id: number;
-  title: string;
-  body: string;
-};
+export default function Home({ posts }: { posts: TPost[] | undefined }) {
+  posts = usePostsContext().posts;
 
-export async function getStaticProps() {
-  const res = await fetch("https://jsonplaceholder.typicode.com/posts");
-  const posts: Post[] = await res.json();
-  return {
-    props: {
-      posts,
-    },
-  };
-}
-
-function handleClick(event: { preventDefault: () => void }) {
-  event.preventDefault();
-}
-
-export default function Home({ posts }: { posts: Post[] }) {
   const classes = useStyles();
   const classesUtil = useStyles2();
+
+  const name = "Iva";
+
+  const router = useRouter();
+  const ROUTE_POST_ID = "posts/[id]";
+
+  const navigate = (id: any) =>
+    router.push({
+      pathname: ROUTE_POST_ID,
+      query: { id },
+    });
 
   return (
     <Layout home>
       <Head>
         <title>{siteTitle}</title>
       </Head>
+      <header className={classes.header}>
+        <Image
+          priority
+          src="/images/profile.jpg"
+          className={classesUtil.borderCircle}
+          height={140}
+          width={140}
+          alt={name}
+        />
+        <h1 className={classesUtil.heading2Xl}>{name}</h1>
+      </header>
       <Container className={classes.about}>
         <Typography variant="body1" gutterBottom className={classes.aboutText}>
           It is a long established fact that a reader will be distracted by the
@@ -58,7 +65,7 @@ export default function Home({ posts }: { posts: Post[] }) {
       <Container className={classes.cardGrid}>
         <h2 className={classesUtil.headingLg}>Blog</h2>
         <Grid container spacing={4}>
-          {posts.map((post) => (
+          {posts?.map((post) => (
             <Grid item xs={12} sm={6} md={4} key={post.id}>
               <Card className={classes.card}>
                 <CardActionArea>
@@ -69,7 +76,7 @@ export default function Home({ posts }: { posts: Post[] }) {
                   />
                   <CardContent>
                     <Typography gutterBottom variant="h5" component="div">
-                      {post.title}
+                      {post.id}. {post.title}
                     </Typography>
                     <Typography variant="body2" color="textSecondary">
                       {post.body}
@@ -77,7 +84,11 @@ export default function Home({ posts }: { posts: Post[] }) {
                   </CardContent>
                 </CardActionArea>
                 <CardActions>
-                  <Button size="small" color="primary">
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    onClick={() => navigate(post.id)}
+                  >
                     View
                   </Button>
                 </CardActions>

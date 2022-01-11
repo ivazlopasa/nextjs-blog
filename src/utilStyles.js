@@ -52,8 +52,11 @@ const useStyles2 = makeStyles(() => ({
     },
     button: {
         display: "flex",
-        marginTop: "40px"
-    }
+        marginRight: "10px"
+    },
+    buttonBox: {
+        marginTop: "20px",
+    },
 })
 );
 
