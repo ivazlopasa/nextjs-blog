@@ -43,6 +43,9 @@ const useStyles = makeStyles((theme) => ({
     },
     radioButton: {
         fontSize: "150px",
+    },
+    group: {
+        marginBottom: "10px"
     }
     
 })

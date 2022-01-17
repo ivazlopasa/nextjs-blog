@@ -109,12 +109,16 @@ export default function Home(props: { filteredPosts: TPost[] }) {
       </Container>
       <Container className={classes.cardGrid}>
         <h2 className={classesUtil.headingLg}>Blog</h2>
-        <FormControl component="fieldset">
+        <FormControl
+          component="fieldset"
+          style={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }}
+        >
           <FormLabel component="legend">Filter by author:</FormLabel>
           {authors?.map((author) => (
             <div key={author.id}>
               <RadioGroup
                 row
+                className={classes.group}
                 aria-label="author"
                 name="row-radio-buttons-group"
                 onClick={() => radioBClicked(author.id)}
