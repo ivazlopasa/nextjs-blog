@@ -14,8 +14,10 @@ import { useRouter } from "next/router";
 import { TPost } from "../../interfaces/TPost";
 import { usePostsContext } from "../../context/PostsContext";
 
-export default function Profile({ posts }: { posts: TPost[] | undefined }) {
-  posts = usePostsContext().posts;
+export default function Profile() {
+  const posts = usePostsContext().posts;
+  const authors = usePostsContext().authors;
+  const images = usePostsContext().images;
 
   const router = useRouter();
   let id = router.query.id;
@@ -24,6 +26,16 @@ export default function Profile({ posts }: { posts: TPost[] | undefined }) {
   const postClasses = useStyles3();
 
   const currentPost = posts?.find((p) => p.id.toString() === id);
+
+  function getAuthor(userId: number | undefined) {
+    const user = authors?.find((user: { id: number }) => userId === user.id);
+    return user ? `${user.username}, ${user.name}` : "No user";
+  }
+
+  function getImage(id: number | undefined) {
+    const image = images?.find((i: { id: number }) => id === i.id);
+    return image?.url;
+  }
 
   return (
     <>
@@ -53,11 +65,17 @@ export default function Profile({ posts }: { posts: TPost[] | undefined }) {
               <Typography variant="body1" gutterBottom>
                 {currentPost?.id}
               </Typography>
+              <Typography variant="h6" gutterBottom color="primary">
+                Author:
+              </Typography>
+              <Typography variant="body1" gutterBottom>
+                {getAuthor(currentPost?.userId)}
+              </Typography>
             </>
             <ButtonBase className={postClasses.image}>
               <img
                 alt="random"
-                src="https://source.unsplash.com/random"
+                src={getImage(currentPost?.id)}
                 className={postClasses.img}
               />
             </ButtonBase>

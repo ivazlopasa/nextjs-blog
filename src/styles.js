@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
         alignItems: "center"
     },
     backToHome: {
-        margin: "3rem 0 0"
+        margin: "48px 0 0"
     },
     container: {
         backgroundColor: theme.palette.background.paper,
@@ -40,6 +40,12 @@ const useStyles = makeStyles((theme) => ({
     aboutText: {
         padding: "15px",
         textAlign: "center"
+    },
+    radioButton: {
+        fontSize: "150px",
+    },
+    group: {
+        marginBottom: "10px"
     }
     
 })

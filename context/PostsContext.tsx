@@ -35,6 +35,16 @@ const fetchAuthors = async () => {
   };
 };
 
+const fetchImages = async () => {
+  const res = await fetch("https://jsonplaceholder.typicode.com/photos");
+  const images = await res.json();
+  return {
+    props: {
+      images,
+    },
+  };
+};
+
 export function PostsWrapper({ children }: { children: any }) {
   const { data: postsData } = useQuery("posts", fetchPosts);
   const posts = postsData?.props.posts;
@@ -42,8 +52,11 @@ export function PostsWrapper({ children }: { children: any }) {
   const { data: authorsData } = useQuery("authors", fetchAuthors);
   const authors = authorsData?.props.authors;
 
+  const { data: imagesData } = useQuery("images", fetchImages);
+  const images = imagesData?.props.images;
+
   return (
-    <PostsContext.Provider value={{ posts, authors }}>
+    <PostsContext.Provider value={{ posts, authors, images }}>
       {children}
     </PostsContext.Provider>
   );
