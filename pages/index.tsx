@@ -22,10 +22,12 @@ import useStyles from "../src/styles";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { usePostsContext } from "../context/PostsContext";
-import { TPost } from "../interfaces/TPost";
+import IPost from "../interfaces/IPost";
+import Author from "../components/author";
 
-export default function Home(props: { filteredPosts: TPost[] }) {
-  const posts: any = usePostsContext().posts;
+export default function Home(props: { filteredPosts: IPost[] }) {
+  const posts = usePostsContext().posts;
+
   const authors = usePostsContext().authors;
   const images = usePostsContext().images;
 
@@ -38,33 +40,24 @@ export default function Home(props: { filteredPosts: TPost[] }) {
   const ROUTE_POST_ID = "posts/[id]";
 
   const [value, setValue] = React.useState(0);
-  const [selectedAuthor, setSelectedAuthor] = useState(0);
-  const [filteredPosts, setFilteredPosts] = useState<Array<TPost>>([]);
+  const [, setSelectedAuthor] = useState(0);
+  const [filteredPosts, setFilteredPosts] = useState<Array<IPost>>();
 
-  const navigate = (id: any) =>
+  const navigate = (id: number) =>
     router.push({
       pathname: ROUTE_POST_ID,
       query: { id },
     });
 
-  function getAuthor(userId: number) {
-    const user = authors?.find((user: { id: number }) => userId === user.id);
-    return user ? `${user.username}, ${user.name}` : "No user";
-  }
-
-  function getFilteredPosts(value: number | undefined) {
-    const newPosts: any = posts?.filter(
+  function getFilteredPosts(value: number) {
+    const newPosts = posts?.filter(
       (post: { userId: number }) => value === post.userId
     );
-    return setFilteredPosts(newPosts);
+    value === 0 ? setFilteredPosts(posts) : setFilteredPosts(newPosts);
   }
 
   useEffect(() => {
-    if (value === 0) {
-      setFilteredPosts(posts);
-    } else {
-      getFilteredPosts(value);
-    }
+    getFilteredPosts(value);
   }, [posts, value]);
 
   function getImage(id: number) {
@@ -72,7 +65,7 @@ export default function Home(props: { filteredPosts: TPost[] }) {
     return image?.url;
   }
 
-  function radioBClicked(id: any) {
+  function radioBClicked(id: number) {
     setSelectedAuthor(id);
     setValue(id);
   }
@@ -91,7 +84,9 @@ export default function Home(props: { filteredPosts: TPost[] }) {
           width={140}
           alt={name}
         />
-        <h1 className={classesUtil.heading2Xl}>{name}</h1>
+        <Typography variant="h4" className={classesUtil.heading2Xl}>
+          {name}
+        </Typography>
       </header>
       <Container className={classes.about}>
         <Typography variant="body1" gutterBottom className={classes.aboutText}>
@@ -109,32 +104,28 @@ export default function Home(props: { filteredPosts: TPost[] }) {
       </Container>
       <Container className={classes.cardGrid}>
         <h2 className={classesUtil.headingLg}>Blog</h2>
-        <FormControl
-          component="fieldset"
-          style={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }}
-        >
+        <FormControl component="fieldset">
           <FormLabel component="legend">Filter by author:</FormLabel>
-          {authors?.map((author) => (
-            <div key={author.id}>
-              <RadioGroup
-                row
-                className={classes.group}
-                aria-label="author"
-                name="row-radio-buttons-group"
+          <RadioGroup
+            row
+            className={classes.group}
+            aria-label="author"
+            name="row-radio-buttons-group"
+          >
+            {authors?.map((author) => (
+              <FormControlLabel
+                key={author.id}
+                value={author.id.toString()}
+                checked={value === author.id}
+                control={<Radio />}
+                label={author.username}
                 onClick={() => radioBClicked(author.id)}
-              >
-                <FormControlLabel
-                  value={author.id.toString()}
-                  checked={value === author.id}
-                  control={<Radio />}
-                  label={author.username}
-                />
-              </RadioGroup>
-            </div>
-          ))}
+              />
+            ))}
+          </RadioGroup>
         </FormControl>
         <Grid container spacing={4}>
-          {filteredPosts?.map((post: TPost) => (
+          {filteredPosts?.map((post: IPost) => (
             <Grid item xs={12} sm={6} md={4} key={post.id}>
               <Card className={classes.card}>
                 <CardActionArea>
@@ -153,7 +144,7 @@ export default function Home(props: { filteredPosts: TPost[] }) {
                       variant="body1"
                       component="div"
                     >
-                      {getAuthor(post.userId)}
+                      <Author userId={post.userId} />
                     </Typography>
                     <Typography variant="body2" color="textSecondary">
                       {post.body}

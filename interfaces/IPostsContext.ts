@@ -1,9 +1,9 @@
-import { TAuthor } from "./TAuthors";
-import { TImage } from "./TImage";
-import { TPost } from "./TPost";
+import IAuthor from "./IAuthors";
+import IImage from "./IImage";
+import  IPost  from "./IPost";
 
 export default interface IPostsContext {
-    posts: TPost[] | undefined;
-    authors: TAuthor[] | undefined;
-    images: TImage [] | undefined
+    posts: IPost[] | undefined;
+    authors: IAuthor[] | undefined;
+    images: IImage [] | undefined
   }

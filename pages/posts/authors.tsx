@@ -6,17 +6,16 @@ import {
   CardContent,
   Container,
   Typography,
-  useTheme,
 } from "@material-ui/core";
 import React from "react";
 import Layout from "../../components/layout";
-import { TAuthor } from "../../interfaces/TAuthors";
+import IAuthor from "../../interfaces/IAuthors";
 import { usePostsContext } from "../../context/PostsContext";
 
 /**
  * Getting authors initials for avatars
  */
-function stringAvatar(name: any) {
+function stringAvatar(name: string) {
   return {
     children: `${name.split(" ")[0][0]}${name.split(" ")[1][0]}`,
   };
@@ -25,7 +24,7 @@ function stringAvatar(name: any) {
 export default function Authors({
   authors,
 }: {
-  authors: TAuthor[] | undefined;
+  authors: IAuthor[] | undefined;
 }) {
   authors = usePostsContext().authors;
   const authorsClasses = useStyles4();

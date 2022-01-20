@@ -1,12 +1,10 @@
 import { makeStyles } from "@material-ui/core/styles";
 
-
 const useStyles2 = makeStyles(() => ({
     container: {
         paddingTop: "30px"
     },
     heading2Xl: {
-        fontSize: "40px",
         lineHeight: "1.2",
         fontWeight: "800",
         margin: "16px 0"
@@ -27,7 +25,7 @@ const useStyles2 = makeStyles(() => ({
         lineHeight: "1.5"
     },
     borderCircle: {
-        borderRadius: "9999px"
+        borderRadius: "90px"
     },
     colorInherit: {
         color: "inherit"
