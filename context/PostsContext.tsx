@@ -2,8 +2,8 @@ import React from "react";
 import { createContext, useContext } from "react";
 import { useQuery } from "react-query";
 import IPostsContext from "../interfaces/IPostsContext";
-import { TAuthor } from "../interfaces/TAuthors";
-import { TPost } from "../interfaces/TPost";
+import IAuthor from "../interfaces/IAuthors";
+import IPost from "../interfaces/IPost";
 
 const PostsContext = createContext({} as IPostsContext);
 
@@ -13,7 +13,7 @@ const PostsContext = createContext({} as IPostsContext);
  */
 const fetchPosts = async () => {
   const res = await fetch("https://jsonplaceholder.typicode.com/posts");
-  const posts: TPost[] = await res.json();
+  const posts: IPost[] = await res.json();
   return {
     props: {
       posts,
@@ -27,7 +27,7 @@ const fetchPosts = async () => {
  */
 const fetchAuthors = async () => {
   const res = await fetch("https://jsonplaceholder.typicode.com/users");
-  const authors: TAuthor[] = await res.json();
+  const authors: IAuthor[] = await res.json();
   return {
     props: {
       authors,

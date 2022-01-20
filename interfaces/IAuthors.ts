@@ -1,4 +1,4 @@
-export type TAuthor = {
+export default interface IAuthor{
     id: number;
     name: string;
     username: string;
@@ -13,7 +13,7 @@ export type TAuthor = {
         lng: string;
       };
     };
-    phone: string;
+    phone: string; 
     website: string;
     company: {
       name: string;

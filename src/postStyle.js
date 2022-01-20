@@ -21,6 +21,10 @@ const useStyles3 = makeStyles(() => ({
         display: 'block',
         maxWidth: '100%',
         maxHeight: '100%',
+    },
+    grid:{
+        minHeight: "100vh", 
+        width: "100%" 
     }
 })
 );

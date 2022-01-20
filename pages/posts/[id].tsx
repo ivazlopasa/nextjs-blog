@@ -11,8 +11,8 @@ import {
 } from "@material-ui/core";
 import React from "react";
 import { useRouter } from "next/router";
-import { TPost } from "../../interfaces/TPost";
 import { usePostsContext } from "../../context/PostsContext";
+import Author from "../../components/author";
 
 export default function Profile() {
   const posts = usePostsContext().posts;
@@ -26,11 +26,6 @@ export default function Profile() {
   const postClasses = useStyles3();
 
   const currentPost = posts?.find((p) => p.id.toString() === id);
-
-  function getAuthor(userId: number | undefined) {
-    const user = authors?.find((user: { id: number }) => userId === user.id);
-    return user ? `${user.username}, ${user.name}` : "No user";
-  }
 
   function getImage(id: number | undefined) {
     const image = images?.find((i: { id: number }) => id === i.id);
@@ -46,7 +41,7 @@ export default function Profile() {
           direction="column"
           alignItems="center"
           justifyContent="center"
-          style={{ minHeight: "100vh", width: "100%" }}
+          className={postClasses.grid}
         >
           <Grid item xs={12}>
             <>
@@ -69,7 +64,7 @@ export default function Profile() {
                 Author:
               </Typography>
               <Typography variant="body1" gutterBottom>
-                {getAuthor(currentPost?.userId)}
+                <Author userId={currentPost?.userId} />
               </Typography>
             </>
             <ButtonBase className={postClasses.image}>
